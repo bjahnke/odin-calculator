@@ -1,0 +1,14 @@
+{
+    "name": "odin-calculator",
+    "version": "1.0.0",
+    "description": "A calculator application",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "author": "Brian",
+    "license": "MIT",
+    "devDependencies": {
+        "jest": "^27.0.6"
+    }
+}
