@@ -1,5 +1,3 @@
-let first, second, op
-
 const display = document.querySelector('.display')
 
 // allow for 8, 8 *, 8 * 8, but not * 8
@@ -51,26 +49,32 @@ function updateDisplay () {
   if (displayPattern.test(newString)) {
     display.textContent = newString
   } else if (opPattern.test(this.textContent)) {
-    evalEquation()
-    display.textContent += this.textContent
+    if (evalEquation() === true) {
+      display.textContent += this.textContent
+    }
   }
 }
 
 function clearInputs () {
   display.textContent = ''
-  first = ''
-  second = ''
-  op = ''
 }
 
 function evalEquation () {
-  const tokens = display.textContent.split(' ')
+  const tokens = display.textContent.trim().split(' ')
+  let evaled = false
   if (tokens.length === 3) {
-    first = parseInt(tokens[0])
-    op = tokens[1]
-    second = parseInt(tokens[2])
+    const first = parseInt(tokens[0])
+    const op = tokens[1]
+    const second = parseInt(tokens[2])
+    if (op === '/' && second === 0) {
+      alert('Divide by 0 not allowed!')
+      clearInputs()
+      return evaled
+    }
+    evaled = true
     display.textContent = operator(first, second, op)
   }
+  return evaled
 }
 
 const calcButtons = document.querySelectorAll('button.op,button.num')
