@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide } = require('./operation');
+import { add, subtract, multiply, divide } from './operation';
 
 describe('add', () => {
     test('should return the sum of two numbers', () => {

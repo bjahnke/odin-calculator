@@ -3,12 +3,14 @@
     "version": "1.0.0",
     "description": "A calculator application",
     "main": "index.js",
+    "type": "module",
     "scripts": {
-        "test": "jest"
+        "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
     },
     "author": "Brian",
     "license": "MIT",
     "devDependencies": {
-        "jest": "^27.0.6"
+        "jest": "^27.0.6",
+        "eslint": "^7.32.0"
     }
 }
