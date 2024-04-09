@@ -4,6 +4,7 @@ const display = document.querySelector('.display')
 
 // allow for 8, 8 *, 8 * 8, but not * 8
 const displayPattern = /^(?:\d+)(?:\s[+\-*/]\s\d*)?$/
+const opPattern = /\s[+\-*/]\s/
 
 function add (a, b) {
   return a + b
@@ -49,6 +50,9 @@ function updateDisplay () {
   const newString = display.textContent + this.textContent
   if (displayPattern.test(newString)) {
     display.textContent = newString
+  } else if (opPattern.test(this.textContent)) {
+    evalEquation()
+    display.textContent += this.textContent
   }
 }
 
