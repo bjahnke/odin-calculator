@@ -65,8 +65,7 @@ function evalEquation () {
     first = parseInt(tokens[0])
     op = tokens[1]
     second = parseInt(tokens[2])
-    const result = operator(first, second, op)
-    console.log(result)
+    display.textContent = operator(first, second, op)
   }
 }
 
