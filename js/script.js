@@ -1,8 +1,13 @@
 const display = document.querySelector('.display')
 
 // allow for 8, 8 *, 8 * 8, but not * 8
-const displayPattern = /^(?:\d+)(?:\s[+\-*/]\s\d*)?$/
+const displayPattern = /^(?:\d+\.*\d*)(?:\s[+\-*/]\s\d*)?$/
 const opPattern = /\s[+\-*/]\s/
+
+function round(num, decimals) {
+  const scale = decimals * 10
+  return Math.round((num + Number.EPSILON) * scale) / scale
+}
 
 function add (a, b) {
   return a + b
@@ -63,16 +68,16 @@ function evalEquation () {
   const tokens = display.textContent.trim().split(' ')
   let evaled = false
   if (tokens.length === 3) {
-    const first = parseInt(tokens[0])
+    const first = parseFloat(tokens[0])
     const op = tokens[1]
-    const second = parseInt(tokens[2])
+    const second = parseFloat(tokens[2])
     if (op === '/' && second === 0) {
       alert('Divide by 0 not allowed!')
       clearInputs()
       return evaled
     }
     evaled = true
-    display.textContent = operator(first, second, op)
+    display.textContent = round(operator(first, second, op), 2)
   }
   return evaled
 }
