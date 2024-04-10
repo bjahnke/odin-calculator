@@ -1,9 +1,10 @@
 .calc-container {
     display: flex;
-    width: 350px;
-    height: 100px;
+    max-width: 350px;
+    max-height: 400px;
     background-color: lightgrey;
     padding: 24px;
+    overflow: auto;
 }
 
 .calc-container div {
@@ -20,15 +21,11 @@ button {
     display: flex
 }
 
-.display-clear-container {
-    display: flex
-}
+.delete-clear-container {
+    display: flex;
 
-#clear, #delete {
-    width: 25%;
 }
 
 .display {
     background-color: white;
-    
 }

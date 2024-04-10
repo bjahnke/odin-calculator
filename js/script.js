@@ -1,8 +1,11 @@
 const display = document.querySelector('.display')
 
 // allow for 8, 8 *, 8 * 8, but not * 8
-const displayPattern = /^(?:\d+\.?\d*)(?:\s[+\-*/]\s\d*\.?\d*)?$/
+const numPattern = /\d*\.?\d*/
 const opPattern = /\s[+\-*/]\s/
+const justOpPattern = /([+\-*/])/
+
+const displayPattern = new RegExp(`^(?:${numPattern.source})(?:${opPattern.source}${numPattern.source})?$`)
 
 function round (num, decimals) {
   const scale = decimals * 10
@@ -49,23 +52,37 @@ function operator (first, second, op) {
   }
 }
 
+/*
+* updates display if no rules are broken
+*/
 function updateDisplay () {
-  const newString = display.textContent + this.textContent
+  const newString = display.value + this.textContent
   if (displayPattern.test(newString)) {
-    display.textContent = newString
-  } else if (opPattern.test(this.textContent)) {
+    display.value = newString
+  } else if (justOpPattern.test(this.textContent)) {
     if (evalEquation() === true) {
-      display.textContent += this.textContent
+      display.value += this.textContent
     }
   }
 }
 
 function clearInputs () {
-  display.textContent = ''
+  display.value = ''
 }
 
+function formatInput (inputStr) {
+  if (!opPattern.test(inputStr) && justOpPattern.test(inputStr)) {
+    inputStr = inputStr.replace(justOpPattern, ' $1 ')
+  }
+  return inputStr
+}
+
+/*
+* parses the input and calculates result if input is valid
+*/
 function evalEquation () {
-  const tokens = display.textContent.trim().split(' ')
+  const inputStr = formatInput(display.value)
+  const tokens = inputStr.trim().split(' ')
   let evaled = false
   if (tokens.length === 3) {
     const first = parseFloat(tokens[0])
@@ -73,31 +90,35 @@ function evalEquation () {
     const second = parseFloat(tokens[2])
     if (op === '/' && second === 0) {
       alert('Divide by 0 not allowed!')
-      clearInputs()
       return evaled
     }
     evaled = true
-    display.textContent = round(operator(first, second, op), 4)
+    display.value = round(operator(first, second, op), 4)
   }
   return evaled
 }
 
 function deleteToken () {
-  if (display.textContent.length > 0) {
+  if (display.value.length > 0) {
     let sliceIdx = -1
     if (
-      display.textContent.length >= 3 &&
-      /\s.{1}\s/.test(display.textContent.slice(-3))
+      display.value.length >= 3 &&
+      /\s.{1}\s/.test(display.value.slice(-3))
     ) {
       sliceIdx = -3
     }
-    display.textContent = display.textContent.slice(0, sliceIdx)
+    display.value = display.value.slice(0, sliceIdx)
   }
 }
 const calcButtons = document.querySelectorAll('button.op,button.num,button#dot')
-console.group(calcButtons)
 calcButtons.forEach(button => button.addEventListener('click', updateDisplay))
 
 document.querySelector('#clear').addEventListener('click', clearInputs)
 document.querySelector('#equals').addEventListener('click', evalEquation)
 document.querySelector('#delete').addEventListener('click', deleteToken)
+
+document.querySelector('.display').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || justOpPattern.test(event.key)) {
+    evalEquation()
+  }
+})
