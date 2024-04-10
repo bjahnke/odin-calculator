@@ -82,6 +82,7 @@ function formatInput (inputStr) {
 */
 function evalEquation () {
   const inputStr = formatInput(display.value)
+  display.value = inputStr
   const tokens = inputStr.trim().split(' ')
   let evaled = false
   if (tokens.length === 3) {
@@ -117,8 +118,11 @@ document.querySelector('#clear').addEventListener('click', clearInputs)
 document.querySelector('#equals').addEventListener('click', evalEquation)
 document.querySelector('#delete').addEventListener('click', deleteToken)
 
-document.querySelector('.display').addEventListener('keydown', (event) => {
+display.focus()
+display.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' || justOpPattern.test(event.key)) {
     evalEquation()
+  } else if (!displayPattern.test(formatInput(display.value))) {
+    deleteToken()
   }
 })
