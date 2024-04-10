@@ -1,6 +1,6 @@
 .calc-container {
     display: flex;
-    width: 250px;
+    width: 350px;
     height: 100px;
     background-color: lightgrey;
     padding: 24px;
@@ -9,7 +9,6 @@
 .calc-container div {
     flex: 1 1 0;
 }
-
 
 button {
     display: block;
@@ -25,10 +24,11 @@ button {
     display: flex
 }
 
-#clear {
+#clear, #delete {
     width: 25%;
 }
 
 .display {
     background-color: white;
+    
 }

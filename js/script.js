@@ -82,12 +82,22 @@ function evalEquation () {
   return evaled
 }
 
+function deleteToken () {
+  if (display.textContent.length > 0) {
+    let sliceIdx = -1
+    if (
+      display.textContent.length >= 3 &&
+      /\s.{1}\s/.test(display.textContent.slice(-3))
+    ) {
+      sliceIdx = -3
+    }
+    display.textContent = display.textContent.slice(0, sliceIdx)
+  }
+}
 const calcButtons = document.querySelectorAll('button.op,button.num,button#dot')
 console.group(calcButtons)
 calcButtons.forEach(button => button.addEventListener('click', updateDisplay))
 
-const clearButton = document.querySelector('#clear')
-clearButton.addEventListener('click', clearInputs)
-
-const equalButton = document.querySelector('#equals')
-equalButton.addEventListener('click', evalEquation)
+document.querySelector('#clear').addEventListener('click', clearInputs)
+document.querySelector('#equals').addEventListener('click', evalEquation)
+document.querySelector('#delete').addEventListener('click', deleteToken)
