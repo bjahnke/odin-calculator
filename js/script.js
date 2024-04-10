@@ -1,10 +1,10 @@
 const display = document.querySelector('.display')
 
 // allow for 8, 8 *, 8 * 8, but not * 8
-const displayPattern = /^(?:\d+\.*\d*)(?:\s[+\-*/]\s\d*)?$/
+const displayPattern = /^(?:\d+\.?\d*)(?:\s[+\-*/]\s\d*\.?\d*)?$/
 const opPattern = /\s[+\-*/]\s/
 
-function round(num, decimals) {
+function round (num, decimals) {
   const scale = decimals * 10
   return Math.round((num + Number.EPSILON) * scale) / scale
 }
@@ -77,12 +77,12 @@ function evalEquation () {
       return evaled
     }
     evaled = true
-    display.textContent = round(operator(first, second, op), 2)
+    display.textContent = round(operator(first, second, op), 4)
   }
   return evaled
 }
 
-const calcButtons = document.querySelectorAll('button.op,button.num')
+const calcButtons = document.querySelectorAll('button.op,button.num,button#dot')
 console.group(calcButtons)
 calcButtons.forEach(button => button.addEventListener('click', updateDisplay))
 

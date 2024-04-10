@@ -1,0 +1,34 @@
+.calc-container {
+    display: flex;
+    width: 250px;
+    height: 100px;
+    background-color: lightgrey;
+    padding: 24px;
+}
+
+.calc-container div {
+    flex: 1 1 0;
+}
+
+
+button {
+    display: block;
+    width: 100%;
+    margin: 1px;
+}
+
+.number-set {
+    display: flex
+}
+
+.display-clear-container {
+    display: flex
+}
+
+#clear {
+    width: 25%;
+}
+
+.display {
+    background-color: white;
+}
